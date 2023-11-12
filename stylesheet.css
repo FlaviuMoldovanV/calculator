@@ -7,7 +7,7 @@
     margin-top: 5px;
 }
 
-.display, button{
+.display, .resultDisplay, button{
     display: flex;
     height: 50px;
     font-size: 18px;
@@ -17,13 +17,20 @@
 
 }
 
-.display{
+.display, .resultDisplay{
     max-width: 300px;
     margin: 0 auto;
     justify-content: flex-end;
     padding: 5px;
     box-sizing: border-box;
+}
 
+.display{
+    border-bottom: none;
+}
+
+.resultDisplay{
+    border-top: none;
 }
 
 button {
