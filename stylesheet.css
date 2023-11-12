@@ -1,0 +1,39 @@
+.calculator {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 5px;
+    max-width: 300px;
+    margin: 0 auto;
+    margin-top: 5px;
+}
+
+.display, button{
+    display: flex;
+    height: 50px;
+    font-size: 18px;
+    margin: 0 auto;
+    border: 1px solid #888;
+    align-items: center; 
+
+}
+
+.display{
+    max-width: 300px;
+    margin: 0 auto;
+    justify-content: flex-end;
+    padding: 5px;
+    box-sizing: border-box;
+
+}
+
+button {
+    width: 100%;
+    background-color: #ccc;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center; 
+}
+
+#clear, #backspace {
+    grid-column: span 2;
+}
