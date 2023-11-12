@@ -18,6 +18,11 @@ function operation(firstNumber, secondNumber, operator) {
     firstNumber = parseFloat(firstNumber);
     secondNumber = parseFloat(secondNumber);
 
+    if (secondNumber == 0 && operator == "/") { 
+        alert("Nice try :)");
+        location.reload();
+    }
+
     switch (operator) {
         case "+":
             return add(firstNumber, secondNumber);
@@ -44,6 +49,7 @@ function numberPress(input) {
 }
 
 function operatorPress(input) {
+
     if (symbol == "") {
         symbol = input;
         display.textContent += ` ${input} `;
@@ -59,14 +65,17 @@ function operatorPress(input) {
 }
 
 function equalPress() {
-    total = operation(firstNumber, secondNumber, symbol);
-    firstNumber = total;
-    secondNumber = "";
-    symbol = "";
-    resultDisplay.textContent = "";
-    display.textContent = total;
-
-
+    if (firstNumber == "" || secondNumber == "" || symbol == "") {
+        alert("ERROR Invalid action!");
+    }
+    else {
+        total = operation(firstNumber, secondNumber, symbol);
+        firstNumber = total;
+        secondNumber = "";
+        symbol = "";
+        resultDisplay.textContent = "";
+        display.textContent = total;
+    }
 }
 
 
@@ -85,4 +94,9 @@ operatorButtons.forEach(button => {
 
 
 const equal = document.querySelector(".equal");
+
 equal.addEventListener("click", () => equalPress());
+
+const clear = document.querySelector("#clear");
+
+clear.addEventListener("click", () => location.reload());
