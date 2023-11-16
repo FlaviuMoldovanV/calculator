@@ -1,102 +1,111 @@
 "use strict";
 
-const add = (a, b) => a + b;
-const subtract = (a, b) => a - b;
-const multiply = (a, b) => a * b;
-const divide = (a, b) => parseFloat((a / b).toFixed(3));
+const numberButtons = document.querySelectorAll(".number");
+const operatorButtons = document.querySelectorAll(".operator");
+const equal = document.querySelector(".equal");
+const clear = document.querySelector("#clear");
 
-let firstNumber = "";
-let secondNumber = "";
-let symbol = "";
-let total = "";
+const calculator = {
+    firstNumber: "",
+    secondNumber: "",
+    symbol: "",
+    total: "",
+    display: document.querySelector(".display"),
+    resultDisplay: document.querySelector(".resultDisplay"),
+}
 
-const display = document.querySelector(".display");
-const resultDisplay = document.querySelector(".resultDisplay")
+const operators = {
+    add: (a, b) => a + b,
+    subtract: (a, b) => a - b,
+    multiply: (a, b) => a * b,
+    divide: (a, b) => parseFloat((a / b).toFixed(3)),
+}
 
-function operation(firstNumber, secondNumber, operator) {
+function updateDisplay(input) {
 
-    firstNumber = parseFloat(firstNumber);
-    secondNumber = parseFloat(secondNumber);
+    calculator.display.textContent += input;
+    calculator.resultDisplay.textContent = calculator.total;
+}
 
-    if (secondNumber == 0 && operator == "/") { 
+function operation() {
+
+    let first = parseFloat(calculator.firstNumber);
+    let second = parseFloat(calculator.secondNumber);
+
+    if (second == 0 && calculator.symbol == "/") {
         alert("Nice try :)");
         location.reload();
     }
 
-    switch (operator) {
+    switch (calculator.symbol) {
         case "+":
-            return add(firstNumber, secondNumber);
+            calculator.total = operators.add(first, second);
+            break;
         case "-":
-            return subtract(firstNumber, secondNumber);
+            calculator.total = operators.subtract(first, second);
+            break;
         case "*":
-            return multiply(firstNumber, secondNumber);
+            calculator.total = operators.multiply(first, second);
+            break;
         case "/":
-            return divide(firstNumber, secondNumber);
+            calculator.total = operators.divide(first, second);
+            break;
     }
+
+    calculator.firstNumber = calculator.total;
+    calculator.secondNumber = "";
 }
 
-function numberPress(input) {
+function numberPress(number) {
 
-    if (symbol == "") {
-        firstNumber += input;
-        display.textContent = firstNumber;
+    if (calculator.symbol === "") {
+        calculator.firstNumber += number;
     }
 
     else {
-        secondNumber += input;
-        display.textContent += input;
+        calculator.secondNumber += number;
     }
+
+    updateDisplay(number);
 }
 
-function operatorPress(input) {
+function operatorPress(operator) {
 
-    if (symbol == "") {
-        symbol = input;
-        display.textContent += ` ${input} `;
+    if (calculator.symbol === "") {
+        calculator.symbol = operator;
+    }
+    else if (calculator.secondNumber == "") {
+        calculator.display.textContent = calculator.display.textContent.slice(0, -3);
+        calculator.symbol = operator;
     }
     else {
-        total = operation(firstNumber, secondNumber, symbol);
-        firstNumber = total;
-        secondNumber = "";
-        symbol = input;
-        display.textContent += ` ${input} `;
-        resultDisplay.textContent = total;
+        operation();
+        calculator.symbol = operator;
     }
+
+    updateDisplay(` ${operator} `);
 }
 
 function equalPress() {
-    if (firstNumber == "" || secondNumber == "" || symbol == "") {
+    if (calculator.firstNumber === "" || calculator.secondNumber === "" || calculator.symbol === "") {
         alert("ERROR Invalid action!");
     }
     else {
-        total = operation(firstNumber, secondNumber, symbol);
-        firstNumber = total;
-        secondNumber = "";
-        symbol = "";
-        resultDisplay.textContent = "";
-        display.textContent = total;
+        operation();
+        calculator.symbol = "";
+        calculator.resultDisplay.textContent = "";
+        calculator.display.textContent = calculator.total;
     }
 }
-
-
-const numberButtons = document.querySelectorAll(".number");
 
 numberButtons.forEach(button => {
     button.addEventListener("click", () => numberPress(button.textContent));
 });
 
-
-const operatorButtons = document.querySelectorAll(".operator");
-
 operatorButtons.forEach(button => {
     button.addEventListener("click", () => operatorPress(button.textContent));
 });
 
-
-const equal = document.querySelector(".equal");
-
 equal.addEventListener("click", () => equalPress());
-
-const clear = document.querySelector("#clear");
 
 clear.addEventListener("click", () => location.reload());

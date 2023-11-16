@@ -3,8 +3,7 @@
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 5px;
     max-width: 300px;
-    margin: 0 auto;
-    margin-top: 5px;
+    margin: 5px auto;
 }
 
 .display, .resultDisplay, button{
